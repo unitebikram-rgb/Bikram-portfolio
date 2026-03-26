@@ -60,13 +60,18 @@
 
         h2 {color: #333;
         }
+        input, textarea {
+            width: 80%;
+            padding: 10px;
+            margin: 5px;
+        }
     </style>
 </head>
 
 <body>
 
      <div class="navbar">
-        <h2>Bikram</h2>
+        <h2>Personal Portfolio</h2>
         <div>
             <a href="#about">About</a>
             <a href="#skills">Skills</a>
@@ -104,9 +109,26 @@
             <p>Personal Portfolio Websites</p>
             <p>Website Fixing & Editing</p>
         </div>
+
+         <div class="card" id="projects">
+            <h2>My projects</h2>
+            <p>Personal portfolio website</p>
+            <a href="https://unitebikram-rgb.github.io/Bikram-portfolio/" target="_blank">🔗 View Live Website</a>
+        </div>
         
         <div class="card">
             <h2>Contact</h2>
+            <form>
+                <input type="text" placeholder="Your Name"><br><br>
+                <input type="email" placeholder="Your Email"><br><br>
+                <textarea placeholder="Your Message"></textarea><br><br>
+                <button type="submit"> Send Message</button>
+
+            </form>
+
+
+
+            <p>or contact me on whatsapp</p>
             <a href="https://wa.me/9779800962616" target="_blank">chat with me</a>
         </div>
 
@@ -115,16 +137,11 @@
             <button onclick="changetext()">motivate me</button>
         </div>
 
-        <div class="card" id="projects">
-            <h2>My projects</h2>
-            <p>Personal portfolio website</p>
-        </div>
-
     </div>
 
     <script>
         function changetext() {
-            document.getElementById("text").innerHTML = "i will become a successful developer";
+            document.getElementById("text").innerHTML = "Try Our Service";
         }
     </script>
 
