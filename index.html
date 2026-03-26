@@ -1,0 +1,134 @@
+    <!DOCTYPE html>
+<html> 
+<head>
+    <title>Bikram | developer</title>
+
+    <style>
+        .navbar {
+            background: darkblue;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .navbar a {
+            color: white;
+            margin: 10px;
+            text-decoration: none;
+        }
+
+        .card:hover {
+            transform: scale(1.03);
+            transition: 0.3s;
+        }
+        html{
+            scroll-behavior: smooth;
+        }
+        body {
+            margin: 0;
+            font-family: Arial;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            text-align: center;
+        }
+        
+        button {
+            padding: 10px 20px;
+            border: none;
+            background: blue;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background: darkblue;
+        }
+        .card{
+            background: white;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: darkblue;
+        }
+
+        h2 {color: #333;
+        }
+    </style>
+</head>
+
+<body>
+
+     <div class="navbar">
+        <h2>Bikram</h2>
+        <div>
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+        </div>
+     </div>
+        
+    <div class="container">
+
+       
+    
+        <div class="card">
+            <img src="myphoto.jpg">
+            <h1>Bikram</h1>
+            <p>Aspiring Web developer | Learning to build real-world websites</p>
+             
+        </div>
+        
+        <div class="card" id="about">
+            <h2>About Me</h2>
+            <p>I am a beginner web developer learning to build real websites and earn online.</p>    
+        </div>
+        <div class="card" id="skills">
+            <h2>Skills</h2>
+            <p>HTML, CSS, JavaScript (Beginner)</p>
+        </div>
+        <div class="card">
+            <h2>My Goal</h2>
+            <p>start freelancing and earn from coding</p>
+        </div>
+
+        <div class="card">
+            <h2>Contact</h2>
+            <a href="https://wa.me/9779800962616" target="_blank">chat with me</a>
+        </div>
+
+        <div class="card">
+            <p id="text">click below</p>
+            <button onclick="changetext()">motivate me</button>
+        </div>
+
+        <div class="card" id="projects">
+            <h2>My projects</h2>
+            <p>Personal portfolio website</p>
+        </div>
+
+    </div>
+
+    <script>
+        function changetext() {
+            document.getElementById("text").innerHTML = "i will become a successful developer";
+        }
+    </script>
+
+    <div class="card">
+        <button onclick="changeColor()">change background</button>
+ </div>
+  
+ <script>
+    function changeColor() {
+        document.body.style.backgroundColor ="lightblue";
+    }
+ </script>
+</body>
+</html>
