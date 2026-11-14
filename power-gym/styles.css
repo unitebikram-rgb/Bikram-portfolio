@@ -352,6 +352,12 @@ input {
   color: var(--text);
 }
 
+.data-state {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
 .small-button {
   padding: 12px 16px;
   min-width: 120px;

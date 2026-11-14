@@ -6,7 +6,7 @@ const schedule = [
   { time: '18:30', title: 'Power Lift', coach: 'Coach Nia', badge: 'Strength' }
 ];
 
-let members = [
+const defaultMembers = [
   { name: 'Aisha Khan', plan: 'Premium', status: 'active', lastVisit: 'Today' },
   { name: 'Rohan Patel', plan: 'Gold', status: 'active', lastVisit: 'Yesterday' },
   { name: 'Mila Davis', plan: 'Standard', status: 'pending', lastVisit: '2 days ago' },
@@ -14,29 +14,96 @@ let members = [
   { name: 'Zara Ali', plan: 'Gold', status: 'active', lastVisit: 'Today' }
 ];
 
-// Render the training schedule list.
-const scheduleList = document.getElementById('scheduleList');
+const STORAGE_KEY = 'power-gym-members-v1';
+const firebaseConfig = window.POWER_GYM_FIREBASE_CONFIG || null;
+let db = null;
+let isFirebaseEnabled = false;
+let members = [];
 
-scheduleList.innerHTML = schedule
-  .map(
-    (item) => `
-      <article class="schedule-item">
-        <div class="schedule-time">${item.time}</div>
-        <div>
-          <h4>${item.title}</h4>
-          <p>${item.coach}</p>
-        </div>
-        <span class="pill">${item.badge}</span>
-      </article>
-    `
-  )
-  .join('');
+function readStoredMembers() {
+  try {
+    const savedMembers = localStorage.getItem(STORAGE_KEY);
+    if (!savedMembers) {
+      return [...defaultMembers];
+    }
 
-// Render the members table and allow quick filtering.
-const memberTableBody = document.getElementById('memberTableBody');
-const memberSearch = document.getElementById('memberSearch');
+    const parsedMembers = JSON.parse(savedMembers);
+    return Array.isArray(parsedMembers) && parsedMembers.length ? parsedMembers : [...defaultMembers];
+  } catch (error) {
+    return [...defaultMembers];
+  }
+}
+
+function saveMembersToLocalStorage() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(members));
+}
+
+function updateDataStateMessage(message) {
+  const stateNode = document.getElementById('dataState');
+  if (stateNode) {
+    stateNode.textContent = message;
+  }
+}
+
+async function initializeFirebase() {
+  if (!firebaseConfig || !window.firebase) {
+    members = readStoredMembers();
+    updateDataStateMessage('Demo mode: storing data in the browser for now.');
+    return false;
+  }
+
+  try {
+    if (firebase.apps.length === 0) {
+      firebase.initializeApp(firebaseConfig);
+    }
+
+    db = firebase.firestore();
+    isFirebaseEnabled = true;
+
+    const snapshot = await db.collection('members').orderBy('createdAt', 'desc').get();
+    if (!snapshot.empty) {
+      members = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+        lastVisit: doc.data().lastVisit || 'Just now'
+      }));
+      saveMembersToLocalStorage();
+      updateDataStateMessage('Connected to Firebase Firestore.');
+      return true;
+    }
+
+    members = readStoredMembers();
+    updateDataStateMessage('Firebase is ready, but no members are stored yet.');
+    return true;
+  } catch (error) {
+    console.warn('Firebase unavailable. Falling back to local browser storage.', error);
+    members = readStoredMembers();
+    updateDataStateMessage('Demo mode: storing data in the browser for now.');
+    return false;
+  }
+}
+
+function renderSchedule() {
+  const scheduleList = document.getElementById('scheduleList');
+
+  scheduleList.innerHTML = schedule
+    .map(
+      (item) => `
+        <article class="schedule-item">
+          <div class="schedule-time">${item.time}</div>
+          <div>
+            <h4>${item.title}</h4>
+            <p>${item.coach}</p>
+          </div>
+          <span class="pill">${item.badge}</span>
+        </article>
+      `
+    )
+    .join('');
+}
 
 function renderMembers(filterText = '') {
+  const memberTableBody = document.getElementById('memberTableBody');
   const normalized = filterText.trim().toLowerCase();
 
   const filteredMembers = members.filter((member) => {
@@ -65,17 +132,31 @@ function renderMembers(filterText = '') {
     .join('');
 }
 
-memberSearch.addEventListener('input', (event) => {
-  renderMembers(event.target.value);
-});
+async function persistMember(member) {
+  if (isFirebaseEnabled && db) {
+    try {
+      const docRef = await db.collection('members').add({
+        ...member,
+        createdAt: Date.now()
+      });
+      return { ...member, id: docRef.id };
+    } catch (error) {
+      console.warn('Unable to save to Firestore. Falling back to browser storage.', error);
+      isFirebaseEnabled = false;
+    }
+  }
 
-const memberForm = document.getElementById('memberForm');
-const memberName = document.getElementById('memberName');
-const memberPlan = document.getElementById('memberPlan');
-const memberStatus = document.getElementById('memberStatus');
+  members = [member, ...members];
+  saveMembersToLocalStorage();
+  return member;
+}
 
-memberForm.addEventListener('submit', (event) => {
+async function handleMemberSubmit(event) {
   event.preventDefault();
+
+  const memberName = document.getElementById('memberName');
+  const memberPlan = document.getElementById('memberPlan');
+  const memberStatus = document.getElementById('memberStatus');
 
   const name = memberName.value.trim();
   const plan = memberPlan.value;
@@ -86,21 +167,43 @@ memberForm.addEventListener('submit', (event) => {
     return;
   }
 
-  members = [
-    {
-      name,
-      plan,
-      status,
-      lastVisit: 'Just now'
-    },
-    ...members
-  ];
+  const record = {
+    name,
+    plan,
+    status,
+    lastVisit: 'Just now'
+  };
 
-  memberForm.reset();
+  if (!isFirebaseEnabled || !db) {
+    members = [record, ...members];
+    saveMembersToLocalStorage();
+  } else {
+    const saved = await persistMember(record);
+    members = [saved, ...members.filter((item) => item.name !== saved.name || item.lastVisit !== 'Just now')];
+  }
+
+  event.target.reset();
   memberPlan.value = 'Premium';
   memberStatus.value = 'active';
-  renderMembers(memberSearch.value);
+  renderMembers(document.getElementById('memberSearch').value);
   memberName.focus();
-});
+}
 
-renderMembers();
+async function initializeApp() {
+  members = readStoredMembers();
+  renderSchedule();
+  renderMembers();
+
+  const memberSearch = document.getElementById('memberSearch');
+  memberSearch.addEventListener('input', (event) => {
+    renderMembers(event.target.value);
+  });
+
+  const memberForm = document.getElementById('memberForm');
+  memberForm.addEventListener('submit', handleMemberSubmit);
+
+  await initializeFirebase();
+  renderMembers(memberSearch.value);
+}
+
+initializeApp();
