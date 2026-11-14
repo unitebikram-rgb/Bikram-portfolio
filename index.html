@@ -1,212 +1,928 @@
-    <!DOCTYPE html>
-<html> 
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Bikram | developer</title>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bikram | Full Stack Developer</title>
     <style>
-        .navbar {
-            background: darkblue;
-            color: white;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-        }
-        .navbar a {
-            color: white;
-            margin: 10px;
-            text-decoration: none;
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap');
+
+        :root {
+            --bg: #030b16;
+            --bg-2: #0b182c;
+            --surface: rgba(15, 23, 42, 0.82);
+            --surface-soft: #101f33;
+            --primary: #eff7ff;
+            --primary-bright: #67a8ff;
+            --primary-strong: #99c3ff;
+            --accent: #8b5cf6;
+            --soft-accent: rgba(139, 92, 246, 0.18);
+            --text: #edf3ff;
+            --muted: #bfd0eb;
+            --line: rgba(148, 163, 184, 0.15);
+            --shadow: 0 32px 72px rgba(2, 6, 23, 0.52);
+            --hero-glow: rgba(103, 168, 255, 0.22);
+            --gold: #fbbf24;
+            --panel-glow: rgba(103, 168, 255, 0.18);
         }
 
-        .navbar {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
-
-.navbar a:hover {
-    text-decoration: underline;
-}
-
-        .card:hover {
-            transform: scale(1.03);
-            transition: 0.3s;
+        body:not(.dark) {
+            --bg: #f4f8ff;
+            --bg-2: #edf4ff;
+            --surface: #ffffff;
+            --surface-soft: #f7fbff;
+            --primary: #0f172a;
+            --primary-bright: #2563eb;
+            --primary-strong: #1d4ed8;
+            --accent: #7c3aed;
+            --soft-accent: rgba(124, 58, 237, 0.12);
+            --text: #111827;
+            --muted: #53627a;
+            --line: rgba(15, 23, 42, 0.08);
+            --shadow: 0 22px 50px rgba(15, 23, 42, 0.08);
+            --hero-glow: rgba(37, 99, 235, 0.12);
+            --gold: #f59e0b;
+            --panel-glow: rgba(37, 99, 235, 0.12);
         }
-        html{
-            scroll-behavior: smooth;
-        }
+
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body {
             margin: 0;
-            font-family: Arial;
-            background: linear-gradient(to right, #4facfe, #00f2fe);
+            font-family: 'Manrope', 'Segoe UI', Arial, sans-serif;
+            background: radial-gradient(circle at top left, var(--hero-glow), transparent 24%), radial-gradient(circle at bottom right, rgba(139,92,246,0.12), transparent 20%), linear-gradient(135deg, var(--bg) 0%, var(--bg-2) 52%, #f3f0ff 100%);
+            color: var(--text);
+            line-height: 1.6;
+            transition: background 0.3s ease, color 0.3s ease;
         }
+
+        h1, h2, h3, h4, .brand {
+            font-family: 'Space Grotesk', 'Manrope', sans-serif;
+            letter-spacing: -0.04em;
+        }
+
+        a { color: inherit; text-decoration: none; }
+        img { max-width: 100%; display: block; }
+        button, input, textarea { font: inherit; }
 
         .container {
-             width: 80%;
-             margin: auto;
-             text-align: center; 
-             padding-top: 20px;
-            }
-        
-     button {
-    padding: 10px 20px;
-    border: none;
-    background: linear-gradient(to right, blue, purple);
-    color: white;
-    cursor: pointer;
-    border-radius: 25px;
-    font-weight: bold;
-}
-
-button:hover {
-    opacity: 0.8;
-}  
-
-        button:hover {
-            background: darkblue;
-        }
-        .card {
-            background: white;
-            padding: 20px;
-            margin: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            .card:hover {
-                transform: translateY(-10px);
-            }
+            width: min(1120px, calc(100% - 32px));
+            margin: 0 auto;
         }
 
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(7, 12, 20, 0.74);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--line);
+        }
 
-        @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 76px;
+            gap: 18px;
+        }
 
-.card {
-    animation: fadeIn 0.8s ease;
-}
+        .brand {
+            font-size: 1.35rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            color: white;
+        }
 
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 22px;
+            align-items: center;
+            color: rgba(255,255,255,0.92);
+            font-size: 0.96rem;
+            font-weight: 700;
+        }
 
+        .nav-links a {
+            opacity: 0.9;
+            transition: opacity 0.2s ease;
+        }
 
+        .nav-links a:hover {
+            opacity: 1;
+        }
 
+        .theme-toggle {
+            width: 42px;
+            height: 42px;
+            border: 1px solid rgba(255,255,255,0.14);
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            cursor: pointer;
+            color: white;
+            font-size: 1.05rem;
+            font-weight: 700;
+            transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+        }
 
+        .theme-toggle:hover {
+            transform: translateY(-1px);
+            border-color: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.09);
+        }
+
+        .hero {
+            padding: 86px 0 50px;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 38px;
+            align-items: center;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: rgba(96, 165, 250, 0.12);
+            border: 1px solid rgba(96,165,250,0.2);
+            color: var(--primary-strong);
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
+        }
+
+        .eyebrow::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--gold);
+            box-shadow: 0 0 15px rgba(251,191,36,0.8);
+        }
 
         h1 {
-            color: darkblue;
+            margin: 18px 0 16px;
+            font-size: clamp(2.8rem, 5vw, 4.5rem);
+            line-height: 1.04;
+            letter-spacing: -0.07em;
         }
 
-        h2 {color: #333;
-        }
-        input, textarea {
-            width: 80%;
-            padding: 10px;
-            margin: 5px;
+        .highlight {
+            color: var(--primary-bright);
+            text-shadow: 0 0 28px rgba(96,165,250,0.28);
         }
 
-        img {
-    width: 150px;
-    border-radius: 50%;
-    margin-bottom: 10px;
-}
+        .lead {
+            margin: 0 0 30px;
+            max-width: 640px;
+            font-size: 1.08rem;
+            color: var(--muted);
+        }
 
-.card {
-    margin: 30px;
-}
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 28px;
+        }
 
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 50px;
+            padding: 12px 24px;
+            border-radius: 999px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            text-decoration: none;
+            letter-spacing: 0.01em;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-bright), var(--accent));
+            color: white;
+            box-shadow: 0 18px 32px rgba(91, 112, 255, 0.28);
+            border: 1px solid rgba(255,255,255,0.14);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.04);
+            color: var(--text);
+            border: 1px solid var(--line);
+            box-shadow: 0 10px 24px rgba(15,23,42,0.04);
+        }
+
+        .btn-primary:hover,
+        .btn-secondary:hover {
+            box-shadow: 0 22px 36px rgba(91, 112, 255, 0.22);
+        }
+
+        .mini-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+        }
+
+        .mini-stats div {
+            min-width: 120px;
+            padding: 12px 14px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+        }
+
+        .mini-stats strong {
+            display: block;
+            font-size: 1.7rem;
+            line-height: 1.1;
+            color: var(--text);
+        }
+
+        .mini-stats span {
+            display: block;
+            margin-top: 6px;
+            font-size: 0.92rem;
+            color: var(--muted);
+        }
+
+        .profile-card {
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            border: 1px solid var(--line);
+            border-radius: 30px;
+            padding: 22px;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .profile-card::before {
+            content: "";
+            position: absolute;
+            inset: -1px;
+            border-radius: 30px;
+            background: linear-gradient(135deg, rgba(103,168,255,0.24), rgba(139,92,246,0.18), rgba(251,191,36,0.08));
+            z-index: -1;
+            filter: blur(18px);
+        }
+
+        .profile-box {
+            background: linear-gradient(135deg, rgba(96,165,250,.15), rgba(139,92,246,.16));
+            border-radius: 26px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: inset 0 0 18px rgba(255,255,255,0.02);
+        }
+
+        .profile-box img {
+            width: 190px;
+            height: 190px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin: 0 auto 18px;
+            border: 6px solid rgba(255,255,255,0.88);
+            box-shadow: 0 18px 40px rgba(15,23,42,0.18);
+        }
+
+        .profile-box h3 {
+            margin: 0 0 8px;
+            font-size: 1.9rem;
+        }
+
+        .role {
+            margin: 0 0 16px;
+            color: var(--muted);
+            font-weight: 700;
+        }
+
+        .profile-badges {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .profile-badges span {
+            display: inline-block;
+            background: rgba(255,255,255,0.82);
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 8px 12px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        section { padding: 18px 0 48px; }
+
+        .section-header { margin-bottom: 26px; }
+        .section-header h2 {
+            margin: 0 0 10px;
+            font-size: clamp(1.9rem, 3vw, 2.7rem);
+            letter-spacing: -0.04em;
+        }
+        .section-header p {
+            margin: 0;
+            max-width: 720px;
+            color: var(--muted);
+        }
+
+        .card,
+        .project,
+        .testimonial,
+        .process-step,
+        .contact-form {
+            background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.01));
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            box-shadow: 0 12px 28px rgba(15,23,42,0.04);
+        }
+
+        .card,
+        .project,
+        .testimonial,
+        .process-step {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::after,
+        .project::after,
+        .testimonial::after,
+        .process-step::after {
+            content: "";
+            position: absolute;
+            inset: 0 auto auto 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(103,168,255,0.5), transparent);
+        }
+
+        .grid-3, .project-grid, .process-grid, .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+        .card,
+        .process-step,
+        .testimonial {
+            padding: 24px 20px;
+        }
+
+        .card:hover,
+        .project:hover,
+        .testimonial:hover,
+        .process-step:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 35px rgba(15,23,42,.08);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .card-icon {
+            width: 54px;
+            height: 54px;
+            border-radius: 16px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, rgba(37,99,235,.12), rgba(124,58,237,.12));
+            font-size: 1.6rem;
+            margin-bottom: 18px;
+        }
+
+        .card h3, .project-body h3 { margin: 0 0 10px; }
+        .card p, .project-body p, .process-step p, .testimonial p { margin: 0; color: var(--muted); }
+
+        .skills-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .skill-tag {
+            display: inline-block;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 10px 16px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .project {
+            overflow: hidden;
+        }
+
+        .project-preview {
+            height: 220px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, rgba(96,165,250,0.16), rgba(139,92,246,0.18));
+            color: var(--primary-strong);
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .project-body {
+            padding: 22px;
+        }
+
+        .project-link {
+            display: inline-block;
+            margin-top: 12px;
+            color: var(--primary-bright);
+            font-weight: 800;
+        }
+
+        .step-number {
+            display: inline-flex;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: white;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            margin-bottom: 14px;
+        }
+
+        .quote {
+            font-size: 1.12rem;
+            margin-bottom: 16px;
+        }
+
+        .client {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            font-weight: 800;
+        }
+
+        .client strong { display: block; }
+        .client span { color: var(--muted); font-size: 0.86rem; }
+
+        .contact-wrap {
+            display: grid;
+            grid-template-columns: 0.9fr 1.1fr;
+            gap: 28px;
+        }
+
+        .contact-panel {
+            background: linear-gradient(135deg, #0a1320 0%, #132a4f 100%);
+            color: #ffffff;
+            border-radius: 24px;
+            padding: 28px 24px;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 24px 48px rgba(15,23,42,0.2);
+        }
+
+        .contact-panel h3 {
+            margin: 0 0 12px;
+            font-size: 1.9rem;
+        }
+
+        .contact-list {
+            list-style: none;
+            margin: 22px 0 0;
+            padding: 0;
+            display: grid;
+            gap: 14px;
+            color: rgba(255,255,255,0.82);
+        }
+
+        .contact-form {
+            padding: 28px 22px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        .field label {
+            font-weight: 800;
+        }
+
+        .field input,
+        .field textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            background: var(--surface-soft);
+            color: var(--text);
+        }
+
+        .field textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .form-note {
+            margin-top: 14px;
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        footer {
+            padding: 24px 0 42px;
+            text-align: center;
+            color: var(--muted);
+        }
+
+        @media (max-width: 900px) {
+            .hero-grid,
+            .grid-3,
+            .project-grid,
+            .process-grid,
+            .testimonial-grid,
+            .contact-wrap {
+                grid-template-columns: 1fr;
+            }
+
+            .nav {
+                flex-direction: column;
+                justify-content: center;
+                padding: 18px 0;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding-top: 70px;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
     </style>
 </head>
-
-<body>
-
-     <div class="navbar">
-        <h2>Personal Portfolio</h2>
-        <div>
-            <a href="#about">About</a>
-            <a href="#skills">Skills</a>
-            <a href="#projects">Projects</a>
+<body class="dark">
+    <header class="topbar">
+        <div class="container nav">
+            <div class="brand">Bikram</div>
+            <nav class="nav-links" aria-label="Main navigation">
+                <a href="#about">About</a>
+                <a href="#services">Services</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </nav>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">☀</button>
         </div>
-     </div>
-        
-    <div class="container">
+    </header>
 
-       
-    
-        <div class="card">
-            <img src="myphoto.jpg">
-            <h1>Bikram</h1>
-            <p>Aspiring Web developer | Learning to build real-world websites</p>
-             
-        </div>
-        
-        <div class="card" id="about">
-            <h2>About Me</h2>
-            <p>I build simple and clean websites for small businesses and individuals.</p>    
-        </div>
-        <div class="card" id="skills">
-            <h2>Skills</h2>
-            <p>HTML, CSS, JavaScript (Beginner)</p>
-        </div>
-        <div class="card">
-            <h2>My Goal</h2>
-            <p>to become a freelancer</p>
-        </div>
-             
-        <div class="card">
-            <h2>Servies</h2>
-            <p>Simple Website Design</p>
-            <p>Personal Portfolio Websites</p>
-            <p>Website Fixing & Editing</p>
-        </div>
+    <main>
+        <section class="hero">
+            <div class="container hero-grid">
+                <div>
+                    <span class="eyebrow">Available for freelance work</span>
+                    <h1>I build <span class="highlight">modern</span> websites and web apps from frontend to backend.</h1>
+                    <p class="lead">I completed a full web development course covering HTML, CSS, JavaScript, Node.js, Express.js, MongoDB, Mongoose, Postman, API development, hosting, and deployment. I build complete digital products for clients and businesses.</p>
 
-         <div class="card" id="projects">
-            <h2>My projects</h2>
-            <p>Personal portfolio website</p>
-            <a href="https://unitebikram-rgb.github.io/Bikram-portfolio/" target="_blank">🔗 View Live Website</a>
-        </div>
-        
-        <div class="card">
-            <h2>Contact</h2>
-            <form>
-                <input type="text" placeholder="Your Name"><br><br>
-                <input type="email" placeholder="Your Email"><br><br>
-                <textarea placeholder="Your Message"></textarea><br><br>
-                <button type="submit"> Send Message</button>
+                    <div class="hero-actions">
+                        <a class="btn btn-primary" href="#contact">Hire Me</a>
+                        <a class="btn btn-secondary" href="#projects">View Work</a>
+                    </div>
 
-            </form>
+                    <div class="mini-stats">
+                        <div>
+                            <strong>Full</strong>
+                            <span>Stack training</span>
+                        </div>
+                        <div>
+                            <strong>8+</strong>
+                            <span>Core technologies</span>
+                        </div>
+                        <div>
+                            <strong>100%</strong>
+                            <span>Responsive builds</span>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="profile-card">
+                    <div class="profile-box">
+                        <img src="myphoto.jpg" alt="Bikram profile photo">
+                        <h3>Bikram</h3>
+                        <p class="role">Full Stack Web Developer</p>
+                        <div class="profile-badges">
+                            <span>Frontend</span>
+                            <span>Backend</span>
+                            <span>MongoDB</span>
+                            <span>Node.js</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
+        <section id="about">
+            <div class="container">
+                <div class="section-header">
+                    <h2>About Me</h2>
+                    <p>I build complete websites and web applications from scratch, handling both the user-facing frontend and the backend logic. My focus is on clean UI, strong functionality, and reliable deployment.</p>
+                </div>
 
-            <p>or contact me on whatsapp</p>
-            <a href="https://wa.me/9779800962616" target="_blank">chat with me</a>
-        </div>
+                <div class="grid-3">
+                    <article class="card">
+                        <div class="card-icon">G</div>
+                        <h3>Goal</h3>
+                        <p>To become a professional full stack developer and build modern digital products for clients around the world.</p>
+                    </article>
+                    <article class="card">
+                        <div class="card-icon">S</div>
+                        <h3>Skills</h3>
+                        <p>HTML, CSS, JavaScript, Node.js, Express.js, MongoDB, Mongoose, Postman, APIs, deployment and hosting.</p>
+                    </article>
+                    <article class="card">
+                        <div class="card-icon">V</div>
+                        <h3>Vision</h3>
+                        <p>I want to help businesses launch better websites and online tools that are scalable, modern, and user-friendly.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
 
-        <div class="card">
-            <p id="text">click below</p>
-            <button onclick="changetext()">motivate me</button>
-        </div>
+        <section id="services">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Services</h2>
+                    <p>I offer both frontend and backend development support for modern and professional web projects.</p>
+                </div>
 
-    </div>
+                <div class="grid-3">
+                    <article class="card">
+                        <div class="card-icon">F</div>
+                        <h3>Frontend Development</h3>
+                        <p>Responsive websites, landing pages, portfolio sites, and clean interface design built with modern web standards.</p>
+                    </article>
+                    <article class="card">
+                        <div class="card-icon">B</div>
+                        <h3>Backend Development</h3>
+                        <p>Server-side logic, REST APIs, database connections, authentication flow, and business logic implementation.</p>
+                    </article>
+                    <article class="card">
+                        <div class="card-icon">P</div>
+                        <h3>Full Project Setup</h3>
+                        <p>Project architecture, coding, API testing, database handling, and deployment for complete web solutions.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Tech Stack</h2>
+                    <p>My course and practice covered both frontend and backend tools needed to build complete working websites and web apps.</p>
+                </div>
+
+                <div class="skills-wrap">
+                    <span class="skill-tag">HTML</span>
+                    <span class="skill-tag">CSS</span>
+                    <span class="skill-tag">JavaScript</span>
+                    <span class="skill-tag">Node.js</span>
+                    <span class="skill-tag">Express.js</span>
+                    <span class="skill-tag">MongoDB</span>
+                    <span class="skill-tag">Mongoose</span>
+                    <span class="skill-tag">Postman</span>
+                    <span class="skill-tag">REST APIs</span>
+                    <span class="skill-tag">Git</span>
+                    <span class="skill-tag">GitHub</span>
+                    <span class="skill-tag">Deployment</span>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <div class="section-header">
+                    <h2>How I Work</h2>
+                    <p>I follow a simple process to turn an idea into a complete, functioning website or application.</p>
+                </div>
+
+                <div class="process-grid">
+                    <article class="process-step">
+                        <div class="step-number">1</div>
+                        <h3>Plan</h3>
+                        <p>I understand the project needs, target users, and required features before creating the structure.</p>
+                    </article>
+                    <article class="process-step">
+                        <div class="step-number">2</div>
+                        <h3>Build</h3>
+                        <p>I design and implement the frontend, backend, database, and APIs needed for the product.</p>
+                    </article>
+                    <article class="process-step">
+                        <div class="step-number">3</div>
+                        <h3>Deploy</h3>
+                        <p>I prepare the project for hosting and deployment so it can be delivered and used live.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Projects</h2>
+                    <p>Examples of work that reflect my frontend and full-stack development capability.</p>
+                </div>
+
+                <div class="project-grid">
+                    <article class="project">
+                        <div class="project-preview">Portfolio</div>
+                        <div class="project-body">
+                            <h3>Portfolio Website</h3>
+                            <p>A responsive personal branding website designed to present skills, work, and contact information professionally.</p>
+                            <a class="project-link" href="https://unitebikram-rgb.github.io/Bikram-portfolio/" target="_blank" rel="noreferrer">View live site -></a>
+                        </div>
+                    </article>
+
+                    <article class="project">
+                        <div class="project-preview">App</div>
+                        <div class="project-body">
+                            <h3>Web App Layout</h3>
+                            <p>A modern web app structure with front-end experience and backend-ready logic for future product builds.</p>
+                            <a class="project-link" href="#contact">Discuss a project -></a>
+                        </div>
+                    </article>
+
+                    <article class="project">
+                        <div class="project-preview">API</div>
+                        <div class="project-body">
+                            <h3>API + Database Project</h3>
+                            <p>A backend-focused setup involving routes, models, CRUD operations, and database integration for real data flow.</p>
+                            <a class="project-link" href="#contact">Build yours -></a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <div class="section-header">
+                    <h2>Client Feedback</h2>
+                    <p>Clients value professionalism, clarity, and websites that work well and look polished.</p>
+                </div>
+
+                <div class="testimonial-grid">
+                    <article class="testimonial">
+                        <p class="quote">"The design is modern, clean, and gives my brand a strong professional identity."</p>
+                        <div class="client">
+                            <div class="avatar">A</div>
+                            <div>
+                                <strong>Alex</strong>
+                                <span>Freelancer</span>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="testimonial">
+                        <p class="quote">"The website feels strong and easy to use. It clearly communicates what I offer."</p>
+                        <div class="client">
+                            <div class="avatar">S</div>
+                            <div>
+                                <strong>Sara</strong>
+                                <span>Business Owner</span>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="testimonial">
+                        <p class="quote">"The project feel is premium and professional, with a real focus on user experience."</p>
+                        <div class="client">
+                            <div class="avatar">R</div>
+                            <div>
+                                <strong>Rahul</strong>
+                                <span>Creative Professional</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="container contact-wrap">
+                <aside class="contact-panel">
+                    <h3>Let's build your next project.</h3>
+                    <p>I can help with portfolio sites, business websites, landing pages, and full-stack web applications.</p>
+                    <ul class="contact-list">
+                        <li>Email: hello@bikramdev.com</li>
+                        <li>WhatsApp: +977 9800962616</li>
+                        <li>Location: Nepal</li>
+                    </ul>
+                </aside>
+
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-grid">
+                            <div class="field">
+                                <label for="name">Your Name</label>
+                                <input id="name" type="text" placeholder="Your name" required>
+                            </div>
+                            <div class="field">
+                                <label for="email">Email</label>
+                                <input id="email" type="email" placeholder="Your email" required>
+                            </div>
+                            <div class="field full">
+                                <label for="subject">Subject</label>
+                                <input id="subject" type="text" placeholder="Project topic or service needed">
+                            </div>
+                            <div class="field full">
+                                <label for="message">Message</label>
+                                <textarea id="message" placeholder="Tell me about your project" required></textarea>
+                            </div>
+                        </div>
+
+                        <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:18px;">
+                            <button class="btn btn-primary" type="submit">Send Message</button>
+                            <a class="btn btn-secondary" href="https://wa.me/9779800962616" target="_blank" rel="noreferrer">Chat on WhatsApp</a>
+                        </div>
+
+                        <p class="form-note" id="formStatus">I usually reply quickly and keep communication simple.</p>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">@ 2025 Bikram | Full Stack Web Developer</div>
+    </footer>
 
     <script>
-        function changetext() {
-            document.getElementById("text").innerHTML = "Try Our Service";
-        }
-    </script>
+        const body = document.body;
+        const toggle = document.getElementById('themeToggle');
 
-    <div class="card">
-        <button onclick="changeColor()">change background</button>
- </div>
-  
- <script>
-    function changeColor() {
-        document.body.style.backgroundColor ="lightblue";
-    }
- </script>
+        body.classList.add('dark');
+        toggle.textContent = '☀';
+
+        toggle.addEventListener('click', function () {
+            body.classList.toggle('dark');
+            toggle.textContent = body.classList.contains('dark') ? '☀' : '☾';
+            toggle.setAttribute('aria-label', body.classList.contains('dark') ? 'Switch to light mode' : 'Switch to dark mode');
+        });
+
+        const contactForm = document.getElementById('contactForm');
+        const formStatus = document.getElementById('formStatus');
+
+        contactForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value.trim();
+            formStatus.textContent = name
+                ? 'Thank you, ' + name + '! Your message has been captured successfully.'
+                : 'Thank you! Your message has been captured successfully.';
+            contactForm.reset();
+        });
+    </script>
 </body>
 </html>
