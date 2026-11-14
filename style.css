@@ -549,6 +549,19 @@ section { padding: 18px 0 48px; }
     margin-bottom: 14px;
 }
 
+.card-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, rgba(37,99,235,.12), rgba(124,58,237,.12));
+    font-size: 1.6rem;
+    margin-bottom: 18px;
+    font-weight: 800;
+    color: var(--primary-bright);
+}
+
 .quote {
     font-size: 1.12rem;
     margin-bottom: 16px;
