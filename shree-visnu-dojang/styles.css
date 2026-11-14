@@ -323,7 +323,7 @@ main {
 
 .belt-grid {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 12px;
 }
 
@@ -352,6 +352,22 @@ main {
 .belt-card.blue { background: linear-gradient(135deg, #97d8ff, #4ea0ff); }
 .belt-card.red { background: linear-gradient(135deg, #ff9393, #ef4b5b); }
 .belt-card.black { background: linear-gradient(135deg, #ced7e6, #4a5969); }
+
+.belt-card.half-yellow-green {
+  background: linear-gradient(90deg, #f8d35e 50%, #77d98a 50%);
+}
+
+.belt-card.half-green-blue {
+  background: linear-gradient(90deg, #77d98a 50%, #4ea0ff 50%);
+}
+
+.belt-card.half-blue-red {
+  background: linear-gradient(90deg, #4ea0ff 50%, #e85c5c 50%);
+}
+
+.belt-card.half-red-black {
+  background: linear-gradient(90deg, #e85c5c 50%, #404a57 50%);
+}
 
 .cta-banner {
   display: flex;
