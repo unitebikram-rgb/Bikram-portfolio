@@ -26,6 +26,15 @@ const formStatus = document.getElementById('formStatus');
 if (contactForm && formStatus) {
     const submitButton = contactForm.querySelector('button[type="submit"]');
 
+    const showFormState = (message, state) => {
+        formStatus.textContent = message;
+        formStatus.classList.remove('is-success', 'is-error', 'is-pending');
+
+        if (state) {
+            formStatus.classList.add(state);
+        }
+    };
+
     contactForm.addEventListener('submit', async (event) => {
         event.preventDefault();
 
@@ -37,15 +46,13 @@ if (contactForm && formStatus) {
         const accessKey = accessKeyInput ? accessKeyInput.value.trim() : '';
 
         if (!accessKey || accessKey === 'YOUR_ACCESS_KEY_HERE') {
-            formStatus.textContent = 'Add your Web3Forms access key to enable the contact form.';
-            formStatus.style.color = '#f59e0b';
+            showFormState('Please add a valid Web3Forms access key to enable the contact form.', 'is-error');
             return;
         }
 
         submitButton.disabled = true;
         submitButton.textContent = 'Sending...';
-        formStatus.textContent = 'Sending your message...';
-        formStatus.style.color = 'var(--muted)';
+        showFormState('Sending your message...', 'is-pending');
 
         try {
             const response = await fetch(contactForm.action, {
@@ -59,16 +66,13 @@ if (contactForm && formStatus) {
             const result = await response.json();
 
             if (result.success) {
-                formStatus.textContent = 'Message sent successfully! I will contact you soon.';
-                formStatus.style.color = '#22c55e';
+                showFormState('Thank you! Your message has been sent successfully. I will get back to you soon.', 'is-success');
                 contactForm.reset();
             } else {
-                formStatus.textContent = 'Something went wrong. Please email hello@bikramdev.com directly.';
-                formStatus.style.color = '#f87171';
+                showFormState('Something went wrong. Please email bikrammajhidev@gmail.com directly.', 'is-error');
             }
         } catch (error) {
-            formStatus.textContent = 'Network error. Please try again or email hello@bikramdev.com directly.';
-            formStatus.style.color = '#f87171';
+            showFormState('Network issue. Please try again or email bikrammajhidev@gmail.com directly.', 'is-error');
         } finally {
             submitButton.disabled = false;
             submitButton.textContent = 'Send Message';
