@@ -332,6 +332,31 @@ input {
   color: var(--text);
 }
 
+.member-form-wrap {
+  margin-bottom: 18px;
+}
+
+.member-form {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(120px, 1fr) minmax(130px, 1fr) auto;
+  gap: 10px;
+}
+
+.member-form input,
+.member-form select {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(148, 163, 184, 0.04);
+  color: var(--text);
+}
+
+.small-button {
+  padding: 12px 16px;
+  min-width: 120px;
+}
+
 .table-wrap {
   overflow-x: auto;
 }

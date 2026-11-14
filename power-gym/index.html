@@ -119,6 +119,23 @@
             </label>
           </div>
 
+          <div class="member-form-wrap">
+            <form id="memberForm" class="member-form">
+              <input id="memberName" type="text" placeholder="Member name" required />
+              <select id="memberPlan" aria-label="Select plan">
+                <option value="Premium">Premium</option>
+                <option value="Gold">Gold</option>
+                <option value="Standard">Standard</option>
+              </select>
+              <select id="memberStatus" aria-label="Select status">
+                <option value="active">Active</option>
+                <option value="pending">Pending</option>
+                <option value="inactive">Inactive</option>
+              </select>
+              <button type="submit" class="primary-button small-button">Add member</button>
+            </form>
+          </div>
+
           <div class="table-wrap">
             <table>
               <thead>

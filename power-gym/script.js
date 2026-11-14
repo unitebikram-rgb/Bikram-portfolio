@@ -6,7 +6,7 @@ const schedule = [
   { time: '18:30', title: 'Power Lift', coach: 'Coach Nia', badge: 'Strength' }
 ];
 
-const members = [
+let members = [
   { name: 'Aisha Khan', plan: 'Premium', status: 'active', lastVisit: 'Today' },
   { name: 'Rohan Patel', plan: 'Gold', status: 'active', lastVisit: 'Yesterday' },
   { name: 'Mila Davis', plan: 'Standard', status: 'pending', lastVisit: '2 days ago' },
@@ -67,6 +67,40 @@ function renderMembers(filterText = '') {
 
 memberSearch.addEventListener('input', (event) => {
   renderMembers(event.target.value);
+});
+
+const memberForm = document.getElementById('memberForm');
+const memberName = document.getElementById('memberName');
+const memberPlan = document.getElementById('memberPlan');
+const memberStatus = document.getElementById('memberStatus');
+
+memberForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  const name = memberName.value.trim();
+  const plan = memberPlan.value;
+  const status = memberStatus.value;
+
+  if (!name) {
+    memberName.focus();
+    return;
+  }
+
+  members = [
+    {
+      name,
+      plan,
+      status,
+      lastVisit: 'Just now'
+    },
+    ...members
+  ];
+
+  memberForm.reset();
+  memberPlan.value = 'Premium';
+  memberStatus.value = 'active';
+  renderMembers(memberSearch.value);
+  memberName.focus();
 });
 
 renderMembers();
