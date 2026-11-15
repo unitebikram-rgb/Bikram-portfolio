@@ -34,6 +34,7 @@
           <a href="#schedule">Schedule</a>
           <a href="#belt">Belt Path</a>
           <a href="#contact">Contact</a>
+          <a href="/admin.html">Coach Login</a>
         </nav>
       </header>
 
@@ -52,7 +53,7 @@
             </div>
             <ul class="hero-stats">
               <li><strong>4+</strong><span>Training groups</span></li>
-              <li><strong>6</strong><span>Belt levels</span></li>
+              <li><strong>10</strong><span>Belt levels</span></li>
               <li><strong>100%</strong><span>Community focus</span></li>
             </ul>
           </div>
@@ -64,18 +65,18 @@
               <div class="mini-grid">
                 <div>
                   <span>Kids</span>
-                  <strong>Mon / Wed</strong>
+                  <strong>Mon</strong>
                 </div>
                 <div>
                   <span>Teens</span>
-                  <strong>Tue / Thu</strong>
+                  <strong>Tue</strong>
                 </div>
                 <div>
                   <span>Adults</span>
-                  <strong>Mon / Sat</strong>
+                  <strong>Wed</strong>
                 </div>
                 <div>
-                  <span>Combat</span>
+                  <span>Sparring</span>
                   <strong>Fri</strong>
                 </div>
               </div>
@@ -108,7 +109,13 @@
               <p class="eyebrow">Training plan</p>
               <h3>Weekly schedule</h3>
             </div>
-            <button class="filter-btn active" data-filter="all">All</button>
+            <div class="filter-group" role="group" aria-label="Filter classes by group">
+              <button class="filter-btn active" type="button" data-filter="all" aria-pressed="true">All</button>
+              <button class="filter-btn" type="button" data-filter="kids" aria-pressed="false">Kids</button>
+              <button class="filter-btn" type="button" data-filter="teens" aria-pressed="false">Teens</button>
+              <button class="filter-btn" type="button" data-filter="adults" aria-pressed="false">Adults</button>
+              <button class="filter-btn" type="button" data-filter="sparring" aria-pressed="false">Sparring</button>
+            </div>
           </div>
 
           <div class="schedule-grid">
@@ -179,17 +186,46 @@
           <div>
             <p class="eyebrow accent">Train with us</p>
             <h3>Ready to join the next class?</h3>
+            <p class="trial-intro">
+              Fill out this quick form to book a free trial class at Shree Visnu Taekwondo Dojang.
+            </p>
           </div>
-          <div class="cta-actions">
-            <a href="https://www.facebook.com/" target="_blank" rel="noreferrer" class="primary-btn">
-              Facebook Page
-            </a>
-            <a href="mailto:hello@shreevisnutkd.com" class="secondary-btn">Email us</a>
-          </div>
+          <form id="trial-form" class="trial-form">
+            <label class="sr-only" for="student-name">Student full name</label>
+            <input
+              type="text"
+              id="student-name"
+              name="studentName"
+              placeholder="Student Full Name"
+              autocomplete="name"
+              required
+            />
+
+            <label class="sr-only" for="parent-contact">Parent or guardian phone number or email</label>
+            <input
+              type="text"
+              id="parent-contact"
+              name="contactInfo"
+              placeholder="Phone Number or Email"
+              required
+            />
+
+            <label class="sr-only" for="age-group">Choose a class</label>
+            <select id="age-group" name="ageGroup" required>
+              <option value="" disabled selected>Select a class</option>
+              <option value="kids">Kids Taekwondo</option>
+              <option value="teens">Teen Fundamentals</option>
+              <option value="adults">Adults Basics</option>
+              <option value="sparring">Sparring &amp; Fitness</option>
+            </select>
+
+            <button type="submit" class="primary-btn">Book Free Trial</button>
+            <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
+          </form>
         </section>
       </main>
     </div>
 
-    <script src="script.js"></script>
+    <script type="module" src="public/script.js"></script>
   </body>
 </html>

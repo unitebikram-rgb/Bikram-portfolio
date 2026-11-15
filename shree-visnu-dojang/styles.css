@@ -309,6 +309,13 @@ main {
   margin-bottom: 18px;
 }
 
+.filter-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
 .filter-btn {
   background: rgba(255,255,255,0.02);
   border-color: var(--line);
@@ -335,6 +342,10 @@ main {
   border: 1px solid var(--line);
   border-radius: 18px;
   background: rgba(255,255,255,0.02);
+}
+
+.schedule-card[hidden] {
+  display: none;
 }
 
 .time-box {
@@ -452,6 +463,74 @@ main {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+}
+
+.trial-intro {
+  max-width: 440px;
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.trial-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: min(100%, 360px);
+}
+
+.trial-form input,
+.trial-form select {
+  width: 100%;
+  min-height: 44px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(255,255,255,0.05);
+  color: var(--text);
+  font: inherit;
+}
+
+.trial-form select {
+  background-color: #0c151f;
+}
+
+.trial-form option {
+  background: #0c151f;
+  color: var(--text);
+}
+
+.trial-form input:focus-visible,
+.trial-form select:focus-visible,
+.trial-form button:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.trial-form button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.form-status {
+  min-height: 1.4em;
+  margin: 0;
+  color: var(--gold);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 @media (max-width: 860px) {
