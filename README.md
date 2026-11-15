@@ -20,14 +20,16 @@ I build responsive websites and practical web applications that help small busin
 A digital academy management project designed to replace scattered paper records with one workflow for student profiles, belt-rank progress, attendance, and class schedules.
 
 - **Technology:** HTML, CSS, JavaScript, Firebase, Cloud Firestore
-- **Live demo:** [Open the dojang project](https://unitebikram-rgb.github.io/Bikram-portfolio/shree-visnu-dojang/)
+- **Live demo:** [Open the dojang project](https://shree-visnu-taekwondo-dojang.web.app/)
+- **Source code:** [View the standalone repository](https://github.com/unitebikram-rgb/shree-visnu-taekwondo-dojang)
 
 ### Power Gym
 
 A responsive gym operations dashboard for organizing member records and day-to-day membership workflows.
 
-- **Technology:** HTML, CSS, JavaScript, Firebase
-- **Live demo:** [Open Power Gym](https://unitebikram-rgb.github.io/Bikram-portfolio/power-gym/)
+- **Technology:** HTML, CSS, JavaScript; sample records are stored in the browser demo
+- **Demo hosting:** GitHub Pages needs to be enabled for the standalone repository
+- **Source code:** [View the standalone repository](https://github.com/unitebikram-rgb/power-gym)
 
 ### Portfolio website
 
