@@ -4,47 +4,47 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Coach Admin | Shree Visnu Taekwondo Dojang</title>
-    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/styles.css?v=20261115-responsive" />
   </head>
   <body>
-    <div class="page-shell" style="max-width: 900px; margin: 40px auto; padding: 30px;">
+    <div class="page-shell admin-shell">
 
       <!-- Login View -->
       <div id="login-section">
         <h2>Coach Login</h2>
-        <p style="color: var(--muted); margin: 10px 0 20px;">Sign in to access trial inquiries and student management.</p>
-        <form id="login-form" style="display: flex; flex-direction: column; gap: 14px; max-width: 380px;">
-          <input type="email" id="login-email" placeholder="Coach Email" required style="padding: 12px; border-radius: 10px; border: 1px solid var(--line); background: rgba(255,255,255,0.05); color: #fff;" />
-          <input type="password" id="login-password" placeholder="Password" required style="padding: 12px; border-radius: 10px; border: 1px solid var(--line); background: rgba(255,255,255,0.05); color: #fff;" />
-          <button type="submit" class="primary-btn" style="cursor: pointer;">Login to Dashboard</button>
-          <p id="login-error" style="color: var(--red); font-size: 0.85rem; margin: 0;"></p>
+        <p class="admin-intro">Sign in to access trial inquiries and student management.</p>
+        <form id="login-form" class="admin-login-form">
+          <input type="email" id="login-email" placeholder="Coach Email" required />
+          <input type="password" id="login-password" placeholder="Password" required />
+          <button type="submit" class="primary-btn">Login to Dashboard</button>
+          <p id="login-error" class="admin-error"></p>
         </form>
       </div>
 
       <!-- Dashboard View (Hidden until logged in) -->
       <div id="dashboard-section" style="display: none;">
-        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line); padding-bottom: 16px; margin-bottom: 24px;">
+        <div class="admin-header">
           <div>
             <p class="eyebrow accent">Admin Portal</p>
             <h2>Shree Visnu Dojang Management</h2>
           </div>
-          <button id="logout-btn" class="secondary-btn" style="cursor: pointer;">Log Out</button>
+          <button id="logout-btn" class="secondary-btn">Log Out</button>
         </div>
 
         <h3>Trial Class Inquiries</h3>
-        <p style="color: var(--muted); font-size: 0.9rem; margin-bottom: 16px;">Real-time submissions from your website form.</p>
+        <p class="admin-subtitle">Real-time submissions from your website form.</p>
 
-        <div id="inquiries-list" style="display: flex; flex-direction: column; gap: 12px;">
+        <div id="inquiries-list" class="admin-inquiries">
           <p style="color: var(--muted);">Loading inquiries...</p>
         </div>
 
-        <div style="margin-top: 40px;">
+        <div class="admin-back-link">
           <a href="/" class="secondary-btn">&larr; Back to Public Website</a>
         </div>
       </div>
 
     </div>
 
-    <script type="module" src="/public/admin.js"></script>
+    <script type="module" src="/public/admin.js?v=20261115-admin-table"></script>
   </body>
 </html>

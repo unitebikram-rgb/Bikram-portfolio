@@ -6,6 +6,8 @@ import {
 } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
 import {
   collection,
+  deleteDoc,
+  doc,
   getDocs,
   orderBy,
   query,
@@ -72,43 +74,63 @@ async function loadInquiries() {
       return;
     }
 
-    const cards = snapshot.docs.map((inquiry) => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "inquiry-table-wrap";
+
+    const table = document.createElement("table");
+    table.className = "inquiry-table";
+    const tableHead = document.createElement("thead");
+    const headerRow = document.createElement("tr");
+
+    for (const heading of ["Student", "Contact", "Program", "Date", "Action"]) {
+      const cell = document.createElement("th");
+      cell.textContent = heading;
+      if (heading === "Action") cell.className = "action-column";
+      headerRow.appendChild(cell);
+    }
+
+    tableHead.appendChild(headerRow);
+    table.appendChild(tableHead);
+
+    const tableBody = document.createElement("tbody");
+
+    snapshot.forEach((inquiry) => {
       const data = inquiry.data();
-      const card = document.createElement("article");
-      card.style.cssText =
-        "padding:16px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,0.02);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;";
-
-      const details = document.createElement("div");
-      const name = document.createElement("h4");
-      name.textContent = String(data.studentName ?? "");
-      name.style.cssText = "margin-bottom:4px;color:var(--text);";
-
-      const contactLine = document.createElement("p");
-      contactLine.style.cssText =
-        "color:var(--muted);font-size:0.9rem;margin:0;";
-      contactLine.append("Contact: ");
-      const contact = document.createElement("strong");
-      contact.textContent = String(data.contactInfo ?? "");
-      contactLine.append(contact, " | Program: ");
-      const program = document.createElement("em");
-      program.textContent = String(data.ageGroup ?? "");
-      contactLine.appendChild(program);
-      details.append(name, contactLine);
-
-      const dateBox = document.createElement("div");
-      dateBox.style.textAlign = "right";
+      const row = document.createElement("tr");
       const date = data.createdAt?.toDate?.();
-      const dateLabel = document.createElement("span");
-      dateLabel.textContent =
-        date instanceof Date ? date.toLocaleString() : "Just now";
-      dateLabel.style.cssText = "font-size:0.75rem;color:var(--gold);";
-      dateBox.appendChild(dateLabel);
+      const values = [
+        data.studentName,
+        data.contactInfo,
+        data.ageGroup,
+        date instanceof Date ? date.toLocaleString() : "Just now",
+      ];
 
-      card.append(details, dateBox);
-      return card;
+      for (const value of values) {
+        const cell = document.createElement("td");
+        cell.textContent = String(value ?? "");
+        row.appendChild(cell);
+      }
+
+      const actionCell = document.createElement("td");
+      actionCell.className = "action-column";
+
+      const deleteButton = document.createElement("button");
+      deleteButton.type = "button";
+      deleteButton.className = "inquiry-delete";
+      deleteButton.textContent = "Delete";
+      deleteButton.setAttribute("aria-label", "Delete inquiry");
+      deleteButton.addEventListener("click", () =>
+        deleteInquiry(inquiry.id, deleteButton),
+      );
+
+      actionCell.appendChild(deleteButton);
+      row.appendChild(actionCell);
+      tableBody.appendChild(row);
     });
 
-    inquiriesList.replaceChildren(...cards);
+    table.appendChild(tableBody);
+    wrapper.appendChild(table);
+    inquiriesList.replaceChildren(wrapper);
   } catch (error) {
     console.error("Error loading inquiries:", error);
     showMessage(
@@ -117,6 +139,23 @@ async function loadInquiries() {
     );
   } finally {
     isLoading = false;
+  }
+}
+
+async function deleteInquiry(inquiryId, button) {
+  if (!window.confirm("Delete this inquiry? This action cannot be undone.")) {
+    return;
+  }
+
+  button.disabled = true;
+
+  try {
+    await deleteDoc(doc(db, "inquiries", inquiryId));
+    await loadInquiries();
+  } catch (error) {
+    console.error("Error deleting inquiry:", error);
+    button.disabled = false;
+    showMessage("Error deleting inquiry. Check Firestore permissions.", "var(--red)");
   }
 }
 
