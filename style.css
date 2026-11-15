@@ -195,6 +195,17 @@ h1 {
     margin-bottom: 28px;
 }
 
+.hero-email {
+    margin: -12px 0 0;
+    color: var(--muted);
+    font-size: 0.94rem;
+}
+
+.hero-email a {
+    color: var(--primary-strong);
+    font-weight: 700;
+}
+
 .btn {
     display: inline-flex;
     align-items: center;
@@ -849,6 +860,12 @@ section { padding: 18px 0 48px; }
     gap: 12px;
     flex-wrap: wrap;
     margin-top: 18px;
+}
+
+.contact-actions.stacked {
+    flex-direction: column;
+    align-items: stretch;
+    margin-top: 24px;
 }
 
 .form-grid {

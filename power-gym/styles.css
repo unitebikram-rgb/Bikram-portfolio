@@ -37,11 +37,32 @@ input {
   font: inherit;
 }
 
+.demo-login-bar {
+  width: min(1280px, calc(100% - 32px));
+  margin: 24px auto 0;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(98, 208, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.demo-login-bar .eyebrow {
+  margin-bottom: 2px;
+}
+
+.demo-login-bar strong {
+  font-size: 0.96rem;
+}
+
 .app-shell {
   display: grid;
   grid-template-columns: 280px minmax(0, 1fr);
   width: min(1280px, calc(100% - 32px));
-  margin: 28px auto;
+  margin: 16px auto 28px;
   border: 1px solid var(--line);
   border-radius: 26px;
   background: rgba(7, 17, 29, 0.82);
@@ -430,6 +451,11 @@ th {
 }
 
 @media (max-width: 980px) {
+  .demo-login-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
   .app-shell {
     grid-template-columns: 1fr;
   }

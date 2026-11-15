@@ -50,6 +50,12 @@ if (contactForm && formStatus) {
             return;
         }
 
+        const captchaResponse = contactForm.querySelector('textarea[name="h-captcha-response"]');
+        if (!captchaResponse || !captchaResponse.value) {
+            showFormState('Please complete the security check before sending your message.', 'is-error');
+            return;
+        }
+
         submitButton.disabled = true;
         submitButton.textContent = 'Sending...';
         showFormState('Sending your message...', 'is-pending');

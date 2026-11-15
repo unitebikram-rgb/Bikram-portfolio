@@ -15,10 +15,42 @@ const defaultMembers = [
 ];
 
 const STORAGE_KEY = 'power-gym-members-v1';
+const DEMO_LOGIN_KEY = 'power-gym-demo-login-v1';
+const DEMO_EMAIL = 'admin@powergym.demo';
+const DEMO_PASSWORD = 'demo1234';
 const firebaseConfig = window.POWER_GYM_FIREBASE_CONFIG || null;
 let db = null;
 let isFirebaseEnabled = false;
+let isDemoLoggedIn = localStorage.getItem(DEMO_LOGIN_KEY) === 'true';
 let members = [];
+
+function setDemoLoginState(isLoggedIn) {
+  isDemoLoggedIn = isLoggedIn;
+  localStorage.setItem(DEMO_LOGIN_KEY, String(isLoggedIn));
+
+  const demoLoginButton = document.getElementById('demoLoginButton');
+  const demoStatusText = document.getElementById('demoStatusText');
+
+  if (demoLoginButton) {
+    demoLoginButton.textContent = isLoggedIn ? 'Demo Logged In' : 'Demo Login';
+  }
+
+  if (demoStatusText) {
+    demoStatusText.textContent = isLoggedIn
+      ? 'Demo admin active: ready for member management'
+      : 'Admin demo ready';
+  }
+
+  updateDataStateMessage(
+    isLoggedIn
+      ? 'Demo admin is active. You can manage member records in the browser.'
+      : 'Demo mode: storing data in the browser for now.'
+  );
+}
+
+function toggleDemoLogin() {
+  setDemoLoginState(!isDemoLoggedIn);
+}
 
 function readStoredMembers() {
   try {
@@ -48,7 +80,11 @@ function updateDataStateMessage(message) {
 async function initializeFirebase() {
   if (!firebaseConfig || !window.firebase) {
     members = readStoredMembers();
-    updateDataStateMessage('Demo mode: storing data in the browser for now.');
+    if (isDemoLoggedIn) {
+      setDemoLoginState(true);
+    } else {
+      setDemoLoginState(false);
+    }
     return false;
   }
 
@@ -68,17 +104,29 @@ async function initializeFirebase() {
         lastVisit: doc.data().lastVisit || 'Just now'
       }));
       saveMembersToLocalStorage();
-      updateDataStateMessage('Connected to Firebase Firestore.');
+      if (isDemoLoggedIn) {
+        setDemoLoginState(true);
+      } else {
+        updateDataStateMessage('Connected to Firebase Firestore. Demo login is available for quick admin testing.');
+      }
       return true;
     }
 
     members = readStoredMembers();
-    updateDataStateMessage('Firebase is ready, but no members are stored yet.');
+    if (isDemoLoggedIn) {
+      setDemoLoginState(true);
+    } else {
+      updateDataStateMessage('Firebase is ready, but no members are stored yet. Demo login is available for quick testing.');
+    }
     return true;
   } catch (error) {
     console.warn('Firebase unavailable. Falling back to local browser storage.', error);
     members = readStoredMembers();
-    updateDataStateMessage('Demo mode: storing data in the browser for now.');
+    if (isDemoLoggedIn) {
+      setDemoLoginState(true);
+    } else {
+      setDemoLoginState(false);
+    }
     return false;
   }
 }
@@ -200,7 +248,9 @@ async function initializeApp() {
   });
 
   const memberForm = document.getElementById('memberForm');
+  const demoLoginButton = document.getElementById('demoLoginButton');
   memberForm.addEventListener('submit', handleMemberSubmit);
+  demoLoginButton.addEventListener('click', toggleDemoLogin);
 
   await initializeFirebase();
   renderMembers(memberSearch.value);
